@@ -14,7 +14,7 @@ export default function FirstPersonControls() {
       d: false,
     });
 
-    camera.position.set(0, 40, 0);
+    camera.position.set(60, 5, -190);
     console.log(camera.position);
 
     useEffect(() => {
@@ -31,7 +31,7 @@ export default function FirstPersonControls() {
     }, []);
 
     useEffect(() => {
-      const speed = 5;
+      const speed = 200;
       const clock = new THREE.Clock();
       let rafId;
 
