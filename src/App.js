@@ -85,7 +85,7 @@ function PositionDisplay() {
 }
 
 function RoomModel() {
-  const { scene } = useGLTF("/artroom.glb");
+  const { scene } = useGLTF("artroom.glb");
   //scene.scale.set(0.01, 0.01, 0.01);
   scene.scale.set(2, 2, 2);
   scene.position.set(60, 0, -170);
@@ -95,7 +95,7 @@ function RoomModel() {
 }
 
 function CityModel() {
-  const { scene } = useGLTF("/city_pack_3.glb");
+  const { scene } = useGLTF("city_pack_3.glb");
   scene.scale.set(0.03, 0.03, 0.03);
   //scene.scale.set(2, 2, 2);
   scene.position.set(10, -160, 10);
