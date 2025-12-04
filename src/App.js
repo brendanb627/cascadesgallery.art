@@ -1,179 +1,178 @@
 import "./App.css";
-import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import FirstPersonControls from "./FirstPersonControls";
-import { SpotLight, useGLTF } from "@react-three/drei";
-import { CubeTextureLoader, TextureLoader } from "three";
+import { useGLTF } from "@react-three/drei";
+import { CubeTextureLoader } from "three";
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { Text } from "@react-three/drei";
+
+export const ArtworkContext = React.createContext(null);
+
+const artworkMetadata = {
+  "they-did-not-expect-him.glb": {
+    name: "They Did Not Expect Him",
+    artist: "Ilya Repin",
+    year: "1884-1888",
+    excerpt:
+      "A revolutionary returns to his family unannounced. This powerful painting captures the tension and emotion of the moment, with family members frozen in shock and recognition.",
+  },
+  "barge-haulers-on-the-volga.glb": {
+    name: "Barge Haulers on the Volga",
+    artist: "Ilya Repin",
+    year: "1870-1873",
+    excerpt:
+      "Depicting the harsh reality of laborers hauling boats along the Volga River. A monumental work that critiques social inequality and celebrates human endurance.",
+  },
+  "arrest-of-a-propogandist.glb": {
+    name: "Arrest of a Propagandist",
+    artist: "Ilya Repin",
+    year: "1892",
+    excerpt:
+      "A revolutionary is arrested for spreading anti-government propaganda. The composition conveys drama and the conflict between authority and idealism.",
+  },
+  "portrait-of-modest.glb": {
+    name: "Portrait of Modest Mussorgsky",
+    artist: "Ilya Repin",
+    year: "1881",
+    excerpt:
+      "An intimate portrait of the renowned Russian composer. Repin captures both the subject's vulnerability and artistic genius in this striking work.",
+  },
+  "the-prisoner.glb": {
+    name: "The Prisoner",
+    artist: "Ilya Repin",
+    year: "1874",
+    excerpt:
+      "A poignant depiction of a political prisoner. The work explores themes of confinement, suffering, and the human spirit under oppression.",
+  },
+};
+
+const artworkLocations = [
+  { filePath: "they-did-not-expect-him.glb", location: [2.7, 1.7, 0.5] },
+  { filePath: "barge-haulers-on-the-volga.glb", location: [-10.6, 1.7, 21] },
+  { filePath: "arrest-of-a-propogandist.glb", location: [-15, 1.7, -21] },
+  { filePath: "portrait-of-modest.glb", location: [13, 0.5, 21] },
+  { filePath: "the-prisoner.glb", location: [13.8, 1.7, -21] },
+];
 
 function App() {
-  const targetRef = useRef();
+  const [nearbyArtwork, setNearbyArtwork] = useState(null);
+
   return (
     <div className="App">
-      <Canvas>
-        <SkyBox />
-        {/* <object3D ref={targetRef} position={[0, 0, 0]} /> */}
-
-        <FirstPersonControls />
-        {/* <PositionDisplay /> */}
-        <ambientLight intensity={0.8} />
-        <directionalLight position={[10, 10, 5]} />
-        <SpotLightComponent position={[60, 5, -170]} />
-        <SpotLightComponent position={[60, 5, -170]} />
-        <SpotLightComponent position={[60, 5, -170]} />
-        <SpotLightComponent position={[60, 5, -170]} />
-        <pointLight
-          position={[60, 4, -170]}
-          intensity={3}
-          distance={100}
-          decay={0}
-        />
-        <CityModel />
-        <RoomModel />
-        <TexturedCube />
-
-      </Canvas>
+      <ArtworkContext.Provider value={{ nearbyArtwork, setNearbyArtwork }}>
+        <Canvas>
+          <SkyBox />
+          <FirstPersonControls />
+          <ambientLight intensity={0.2} />
+          <pointLight position={[0, 4, 0]} intensity={1} distance={100} decay={0} />
+          <ProximityDetector />
+          <ArtModel filePath="they-did-not-expect-him.glb" location={[2.7, 1.7, 0.5]} rotation={[0, Math.PI, 0]} scale={[1, 1, 1]} />
+          <ArtModel filePath="barge-haulers-on-the-volga.glb" location={[-10.6, 1.7, 21]} rotation={[0, Math.PI / 2, 0]} scale={[1, 1, 1]} />
+          <ArtModel filePath="arrest-of-a-propogandist.glb" location={[-15, 1.7, -21]} rotation={[0, -Math.PI / 2, 0]} scale={[1, 1, 1]} />
+          <ArtModel filePath="portrait-of-modest.glb" location={[13, 0.5, 21]} rotation={[0, Math.PI / 2, 0]} scale={[1, 1, 1]} />
+          <ArtModel filePath="the-prisoner.glb" location={[13.8, 1.7, -21]} rotation={[0, -Math.PI / 2, 0]} scale={[1, 1, 1]} />
+          <RoomModel />
+        </Canvas>
+        <ArtworkOverlay artwork={nearbyArtwork} />
+      </ArtworkContext.Provider>
     </div>
   );
 }
 
-function SpotLightComponent({ position }) {
-  const spotLightRef = useRef();
-  const targetRef = useRef();
-  console.log(position);
-
-  useEffect(() => {
-    if (spotLightRef.current && targetRef.current) {
-      spotLightRef.current.target = targetRef.current;
-      spotLightRef.current.target.updateMatrixWorld();
-    }
-  }, []);
-
-  return (
-    <>
-      <object3D
-        ref={targetRef}
-        position={[position[0], position[1] - 5, position[2]]}
-      />
-      <spotLight
-        ref={spotLightRef}
-        position={position}
-        intensity={100}
-        angle={Math.PI / 3}
-        penumbra={0.5}
-        decay={1.2}
-      />
-    </>
-  );
-}
-
-
-function PositionDisplay() {
+function ProximityDetector() {
   const { camera } = useThree();
-  const [pos, setPos] = React.useState([0, 0, 0]);
+  const { setNearbyArtwork } = React.useContext(ArtworkContext);
+  const lastArtworkRef = useRef(null);
+  const proximityDistance = 8;
 
   useFrame(() => {
-    setPos([camera.position.x, camera.position.y, camera.position.z]);
+    let found = null;
+
+    for (const art of artworkLocations) {
+      const distance = camera.position.distanceTo(new THREE.Vector3(...art.location));
+      if (distance < proximityDistance) {
+        found = {
+          filePath: art.filePath,
+          ...artworkMetadata[art.filePath],
+          distance,
+        };
+        break;
+      }
+    }
+
+    if (found?.filePath !== lastArtworkRef.current?.filePath) {
+      setNearbyArtwork(found);
+      lastArtworkRef.current = found;
+    }
   });
 
-  return (
-    <Text position={[0, 5, -10]} fontSize={0.5} color="white">
-      {`X: ${pos[0].toFixed(2)} Y: ${pos[1].toFixed(2)} Z: ${pos[2].toFixed(2)}`}
-    </Text>
-  );
+  return null;
 }
 
 function RoomModel() {
-  const { scene } = useGLTF("artroom.glb");
-  //scene.scale.set(0.01, 0.01, 0.01);
-  scene.scale.set(2, 2, 2);
-  scene.position.set(60, 0, -170);
-  scene.rotation.set(0, -90, 0);
+  const { scene } = useGLTF("new_artroom3.glb");
+
+  useEffect(() => {
+    scene.scale.set(2.5, 2.7, 2.5);
+    scene.position.set(0, 0, 0);
+    scene.rotation.set(0, 0, 0);
+  }, [scene]);
 
   return <primitive object={scene} />;
 }
 
-function CityModel() {
-  const { scene } = useGLTF("city_pack_3.glb");
-  scene.scale.set(0.03, 0.03, 0.03);
-  //scene.scale.set(2, 2, 2);
-  scene.position.set(10, -160, 10);
+function ArtModel({ filePath, location, rotation, scale }) {
+  const { scene } = useGLTF(filePath);
+
+  useEffect(() => {
+    scene.scale.set(scale[0], scale[1], scale[2]);
+    scene.position.set(location[0], location[1], location[2]);
+    scene.rotation.set(rotation[0], rotation[1], rotation[2]);
+  }, [scene, filePath]);
 
   return <primitive object={scene} />;
+}
+
+function ArtworkOverlay({ artwork }) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(!!artwork);
+  }, [artwork]);
+
+  return (
+    <div className={`artwork-overlay ${isVisible ? "visible" : ""}`}>
+      {artwork && (
+        <div className="artwork-content">
+          <h2>{artwork.name}</h2>
+          <p className="artist">{artwork.artist} • {artwork.year}</p>
+          <p className="excerpt">{artwork.excerpt}</p>
+        </div>
+      )}
+    </div>
+  );
 }
 
 function SkyBox() {
   const { scene } = useThree();
+
   useEffect(() => {
     const loader = new CubeTextureLoader();
     loader.setPath("/");
 
-    const texture = loader.load(
-      [
-        "clouds1_east.jpg", // px
-        "clouds1_west.jpg", // nx
-        "clouds1_up.jpg", // py
-        "clouds1_bottom.jpg", // ny
-        "clouds1_south.jpg", // pz
-        "clouds1_north.jpg", // nz
-      ],
-      () => console.log("Skybox loaded!") // so we know it’s working
-    );
+    const texture = loader.load([
+      "clouds1_east.jpg",
+      "clouds1_west.jpg",
+      "clouds1_up.jpg",
+      "clouds1_bottom.jpg",
+      "clouds1_south.jpg",
+      "clouds1_north.jpg",
+    ]);
 
     scene.background = texture;
   }, [scene]);
 
   return null;
-}
-
-function TexturedCube() {
-  const textures = useLoader(TextureLoader, [
-    "/clouds1_east.jpg", // right (+X)
-    "/clouds1_west.jpg", // left (-X)
-    "/clouds1_up.jpg", // top (+Y)
-    "/clouds1_down.jpg", // bottom (-Y)
-    "/clouds1_north.jpg", // front (+Z)
-    "/clouds1_south.jpg", // back (-Z)
-  ]);
-
-  return (
-    <mesh scale={[1000, 1000, 1000]}>
-      {" "}
-      {/* huge cube */}
-      <boxGeometry args={[1, 1, 1]} />
-      <meshBasicMaterial
-        side={THREE.BackSide}
-        map={textures[0]}
-        attach="material-0"
-      />
-      <meshBasicMaterial
-        side={THREE.BackSide}
-        map={textures[1]}
-        attach="material-1"
-      />
-      <meshBasicMaterial
-        side={THREE.BackSide}
-        map={textures[2]}
-        attach="material-2"
-      />
-      <meshBasicMaterial
-        side={THREE.BackSide}
-        map={textures[3]}
-        attach="material-3"
-      />
-      <meshBasicMaterial
-        side={THREE.BackSide}
-        map={textures[4]}
-        attach="material-4"
-      />
-      <meshBasicMaterial
-        side={THREE.BackSide}
-        map={textures[5]}
-        attach="material-5"
-      />
-    </mesh>
-  );
 }
 
 export default App;

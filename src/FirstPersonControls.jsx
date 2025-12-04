@@ -1,5 +1,4 @@
-// ...existing code...
-import { useThree } from "@react-three/fiber";
+import { useThree, useFrame } from "@react-three/fiber";
 import { PointerLockControls } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 import * as THREE from "three"
@@ -14,13 +13,14 @@ export default function FirstPersonControls() {
       d: false,
     });
 
-    camera.position.set(60, 5, -190);
-    console.log(camera.position);
+    // Initialize camera position only once
+    useEffect(() => {
+      camera.position.set(0, 1, 0);
+    }, [camera]);
 
     useEffect(() => {
       const down = (e) => (keys.current[e.key.toLowerCase()] = true);
       const up = (e) => (keys.current[e.key.toLowerCase()] = false);
-      console.log(camera.position);
 
       window.addEventListener("keydown", down);
       window.addEventListener("keyup", up);
@@ -31,7 +31,7 @@ export default function FirstPersonControls() {
     }, []);
 
     useEffect(() => {
-      const speed = 200;
+      const speed = 7;
       const clock = new THREE.Clock();
       let rafId;
 

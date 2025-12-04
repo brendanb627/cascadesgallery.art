@@ -17,3 +17,55 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Add to your existing App.css */
+
+.artwork-overlay {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 25vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  transform: translateX(100%);
+  transition: transform 0.4s ease-in-out;
+  padding: 2rem;
+  box-sizing: border-box;
+  overflow-y: auto;
+  z-index: 1000;
+  border-left: 2px solid #fff;
+  pointer-events: none;
+}
+
+.artwork-overlay.visible {
+  transform: translateX(0);
+}
+
+.artwork-content {
+  color: #fff;
+  font-family: 'Georgia', serif;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.artwork-content h2 {
+  font-size: 1.8rem;
+  margin: 0 0 0.5rem 0;
+  color: #e8d5b7;
+}
+
+.artwork-content .artist {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin: 0 0 1.5rem 0;
+  font-style: italic;
+}
+
+.artwork-content .excerpt {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #ddd;
+  margin: 0;
+  text-align: justify;
+}
