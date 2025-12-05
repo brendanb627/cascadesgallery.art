@@ -14,35 +14,35 @@ const artworkMetadata = {
     artist: "Ilya Repin",
     year: "1884-1888",
     excerpt:
-      "A revolutionary returns to his family unannounced. This powerful painting captures the tension and emotion of the moment, with family members frozen in shock and recognition.",
+      "Ilya Repin, They Did Not Expect Him, 1884-1888. Oil on canvas, 160.5 by 167.5 cm. State Tretyakov Gallery, Moscow.",
   },
   "barge-haulers-on-the-volga.glb": {
     name: "Barge Haulers on the Volga",
     artist: "Ilya Repin",
     year: "1870-1873",
     excerpt:
-      "Depicting the harsh reality of laborers hauling boats along the Volga River. A monumental work that critiques social inequality and celebrates human endurance.",
+      "Ilya Repin, Barge Haulers on the Volga, 1870-1873. Oil on canvas, 131.5 by 281 cm. State Russian Museum, St. Petersburg.",
   },
   "arrest-of-a-propogandist.glb": {
     name: "Arrest of a Propagandist",
     artist: "Ilya Repin",
     year: "1892",
     excerpt:
-      "A revolutionary is arrested for spreading anti-government propaganda. The composition conveys drama and the conflict between authority and idealism.",
+      "Ilya Repin, Arrest of a Propagandist, 1892. Oil on canvas. State Tretyakov Gallery, Moscow.",
   },
   "portrait-of-modest.glb": {
     name: "Portrait of Modest Mussorgsky",
     artist: "Ilya Repin",
     year: "1881",
     excerpt:
-      "An intimate portrait of the renowned Russian composer. Repin captures both the subject's vulnerability and artistic genius in this striking work.",
+      "Ilya Repin, Portrait of Modest Mussorgsky, 1881. Oil on canvas, 71.8 by 58.5 cm. State Tretyakov Gallery, Moscow.",
   },
   "the-prisoner.glb": {
     name: "The Prisoner",
-    artist: "Ilya Repin",
+    artist: "Nikolai Yaroshenko",
     year: "1874",
     excerpt:
-      "A poignant depiction of a political prisoner. The work explores themes of confinement, suffering, and the human spirit under oppression.",
+      "Nikolai Yaroshenko, The Prisoner, 1878. Oil on canvas, 55 by 48.5 cm. State Russian Museum, St. Petersburg.",
   },
 };
 
@@ -55,6 +55,7 @@ const artworkLocations = [
 ];
 
 function App() {
+  const [displayOverlay, setDisplayOverlay] = useState(true);
   const [nearbyArtwork, setNearbyArtwork] = useState(null);
 
   return (
@@ -74,7 +75,27 @@ function App() {
           <RoomModel />
         </Canvas>
         <ArtworkOverlay artwork={nearbyArtwork} />
+        <InitialOverlay visible={displayOverlay} onClose={() => setDisplayOverlay(false)} />
       </ArtworkContext.Provider>
+    </div>
+  );
+}
+
+function InitialOverlay({ visible, onClose }) {
+   useEffect(() => {
+    if (visible) console.log("InitialOverlay mounted (visible)");
+  }, [visible]);
+  if (!visible) return null;
+  return (
+    <div className="initial-overlay" onClick={onClose}>
+      <div className="initial-content">
+        <p>Cascades Gallery Presents:</p>
+        <h1>The Room Holds Its Breath</h1>
+        <p>An exhibition with art from 19th Cenutry Russian artists that depict the human emotions and tension 
+          between the citizens and the outcasts.</p>
+        <p className="artist">Curated by Brendan Bessman for ART 101</p>
+        <p>Click to enter</p>
+      </div>
     </div>
   );
 }
@@ -83,7 +104,7 @@ function ProximityDetector() {
   const { camera } = useThree();
   const { setNearbyArtwork } = React.useContext(ArtworkContext);
   const lastArtworkRef = useRef(null);
-  const proximityDistance = 8;
+  const proximityDistance = 9;
 
   useFrame(() => {
     let found = null;
