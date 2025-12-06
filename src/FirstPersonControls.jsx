@@ -7,7 +7,16 @@ import * as THREE from "three";
 export default function FirstPersonControls() {
   const { camera } = useThree();
 
-  const keys = useRef({ w: false, a: false, s: false, d: false });
+  const keys = useRef({
+    w: false,
+    a: false,
+    s: false,
+    d: false,
+    arrowup: false,
+    arrowdown: false,
+    arrowleft: false,
+    arrowright: false,
+  });
 
   // Toggle to true while tuning to print debug logs
   const DEBUG = false;
@@ -16,10 +25,9 @@ export default function FirstPersonControls() {
   // The camera will be prevented from leaving these bounds (X and Z).
   const bounds = useRef({
     minX: -38, // left wall
-    maxX:  38, // right wall
+    maxX: 38, // right wall
     minZ: -20, // back wall
-    maxZ:  21, // front wall
-    
+    maxZ: 21, // front wall
   });
 
   // small clearance so the camera doesn't sit exactly on the wall
@@ -63,8 +71,12 @@ export default function FirstPersonControls() {
     right.copy(forward).cross(camera.up).normalize();
 
     // WASD
-    const moveZ = (keys.current.w ? 1 : 0) - (keys.current.s ? 1 : 0);
-    const moveX = (keys.current.d ? 1 : 0) - (keys.current.a ? 1 : 0);
+    const moveZ =
+      (keys.current.w || keys.current.arrowup ? 1 : 0) -
+      (keys.current.s || keys.current.arrowdown ? 1 : 0);
+    const moveX =
+      (keys.current.d || keys.current.arrowright ? 1 : 0) -
+      (keys.current.a || keys.current.arrowleft ? 1 : 0);
 
     if (moveZ === 0 && moveX === 0) return;
 
@@ -80,8 +92,14 @@ export default function FirstPersonControls() {
 
     // clamp helper
     const clampPos = (v) => {
-      v.x = Math.max(bounds.current.minX + clearance, Math.min(bounds.current.maxX - clearance, v.x));
-      v.z = Math.max(bounds.current.minZ + clearance, Math.min(bounds.current.maxZ - clearance, v.z));
+      v.x = Math.max(
+        bounds.current.minX + clearance,
+        Math.min(bounds.current.maxX - clearance, v.x)
+      );
+      v.z = Math.max(
+        bounds.current.minZ + clearance,
+        Math.min(bounds.current.maxZ - clearance, v.z)
+      );
       return v;
     };
 
@@ -89,9 +107,18 @@ export default function FirstPersonControls() {
     const clamped = clampPos(proposed.clone());
 
     if (DEBUG) {
-      console.debug("camera", camera.position.toArray().map(n => n.toFixed(2)));
-      console.debug("proposed", proposed.toArray().map(n => n.toFixed(2)));
-      console.debug("clamped", clamped.toArray().map(n => n.toFixed(2)));
+      console.debug(
+        "camera",
+        camera.position.toArray().map((n) => n.toFixed(2))
+      );
+      console.debug(
+        "proposed",
+        proposed.toArray().map((n) => n.toFixed(2))
+      );
+      console.debug(
+        "clamped",
+        clamped.toArray().map((n) => n.toFixed(2))
+      );
     }
 
     // if proposed is allowed (no clamp), just apply
@@ -107,7 +134,10 @@ export default function FirstPersonControls() {
     clampPos(attemptX); // keep X clamped only via helper
     if (attemptX.x !== camera.position.x) {
       // ensure new X doesn't leave room in Z to avoid corner clipping
-      if (attemptX.x >= bounds.current.minX + clearance && attemptX.x <= bounds.current.maxX - clearance) {
+      if (
+        attemptX.x >= bounds.current.minX + clearance &&
+        attemptX.x <= bounds.current.maxX - clearance
+      ) {
         camera.position.x = attemptX.x;
         return;
       }
@@ -118,7 +148,10 @@ export default function FirstPersonControls() {
     attemptZ.x = camera.position.x;
     clampPos(attemptZ);
     if (attemptZ.z !== camera.position.z) {
-      if (attemptZ.z >= bounds.current.minZ + clearance && attemptZ.z <= bounds.current.maxZ - clearance) {
+      if (
+        attemptZ.z >= bounds.current.minZ + clearance &&
+        attemptZ.z <= bounds.current.maxZ - clearance
+      ) {
         camera.position.z = attemptZ.z;
         return;
       }

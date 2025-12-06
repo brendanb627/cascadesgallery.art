@@ -18,13 +18,11 @@ code {
     monospace;
 }
 
-/* Add to your existing App.css */
-
 .artwork-overlay {
   position: fixed;
   right: 0;
   top: 0;
-  width: 25vw;
+  width: 33vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.85);
   transform: translateX(100%);
@@ -34,11 +32,48 @@ code {
   overflow-y: auto;
   z-index: 1000;
   border-left: 2px solid #fff;
-  pointer-events: none;
+}
+
+.source {
+  text-align: left;
+}
+
+.about-exhibit-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 25vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 2rem;
+  box-sizing: border-box;
+  overflow-y: auto;
+  z-index: 500;
+  border-left: 2px solid #fff;
+  pointer-events: auto;
+  color: #fff;
+  font-family: 'Georgia', serif;
+}
+
+.about-exhibit-panel h2 {
+  font-size: 1.5rem;
+  margin-top: 0;
+  color: #e8d5b7;
+}
+
+.about-exhibit-panel p {
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .artwork-overlay.visible {
   transform: translateX(0);
+}
+
+.intro-text {
+    box-sizing: border-box;
+    text-align:justify;
+    line-height: 25px;
 }
 
 .artwork-content {
@@ -76,12 +111,10 @@ code {
   margin: 0;
   text-align: justify;
 }
-
-/* initial overlay shown before entering the gallery */
 .initial-overlay {
   position: fixed;
   inset: 0; 
-    font-family: 'Georgia', serif;                /* top:0; right:0; bottom:0; left:0; */
+    font-family: 'Georgia', serif; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -89,7 +122,7 @@ code {
   color: #fff;
   z-index: 9999;
   cursor: pointer;
-  pointer-events: auto;     /* must accept clicks to dismiss */
+  pointer-events: auto;     
 }
 
 h1 {
@@ -98,11 +131,15 @@ h1 {
   color: #e8d5b7;
 }
 
+.sidebar {
+  text-align: justify;
+}
+
 .initial-content {
   max-width: 600px;
   padding: 2rem;
   box-sizing: border-box;
   text-align: center;
-  background: rgba(0,0,0,0.4); /* subtle inner panel */
+  background: rgba(0,0,0,0.4); 
   border-radius: 8px;
 }
