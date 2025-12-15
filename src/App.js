@@ -14,7 +14,7 @@ const artworkMetadata = {
     artist: "Ilya Repin",
     year: "1884-1888",
     excerpt:
-      "Ilya Repin, They Did Not Expect Him, 1884-1888. Oil on canvas, 160.5 by 167.5 cm. State Tretyakov Gallery, Moscow.",
+      "Ilya Repin, <em>They Did Not Expect Him</em>, 1884-1888. Oil on canvas, 160.5 by 167.5 cm. State Tretyakov Gallery, Moscow.",
     chatLabel:
       "In this tense scene, Ilya Repin paints the moment of a political exile returning after being in exile (an incredibly rare event). The artwork was painted during a time of political unrest and uncertainty and the artwork focuses on the emotional struggle that the exiles and their families faced during this time. Repin curates the complex emotions for each character very carefully, creating the blend of shock, fear, and hope. While this artwork has significant historical context, it also represents the universal experience of feeling tension and political transformation.",
     sources: [
@@ -27,7 +27,7 @@ const artworkMetadata = {
     artist: "Ilya Repin",
     year: "1870-1873",
     excerpt:
-      "Ilya Repin, Barge Haulers on the Volga, 1870-1873. Oil on canvas, 131.5 by 281 cm. State Russian Museum, St. Petersburg.",
+      "Ilya Repin, <em>Barge Haulers on the Volga</em>, 1870-1873. Oil on canvas, 131.5 by 281 cm. State Russian Museum, St. Petersburg.",
     chatLabel:
       "Widely considered one of Ilya Repin's greatest achievements, this artwork represents the raw emotion and exhaustion of the working class enduring the brutal physical labor involved in being a barge hauler on the Volga river. Instead of depicting the workers as a group or focusing on other details, Repin decides to clearly portray each person individually, each with their own emotion, and level of exhaustion. The artwork is incredibly well created since the scene could be compared to that of a modern day photo, with the reactions and emotions seeming authentic and raw.",
     sources: [
@@ -40,9 +40,9 @@ const artworkMetadata = {
     artist: "Ilya Repin",
     year: "1892",
     excerpt:
-      "Ilya Repin, Arrest of a Propagandist, 1892. Oil on canvas, State Tretyakov Gallery, Moscow.",
+      "Ilya Repin, <em>Arrest of a Propagandist</em>, 1892. Oil on canvas, State Tretyakov Gallery, Moscow.",
     chatLabel:
-      "Arrest of a Propagandist by Ilya Repin creates a dramatic moment where a Russian revolutionary is apprehended for attempting to distribute political papers or materials. The artwork was painted in a time where these actions were met with incredibly severe actions. The scene is further dramatized with shadowy figures, and papers thrown about covering the floor. The figures in the scene range from looking stern and anxious, while the arrested revolutionary looks determined and steadfast. Repin's work on this piece helps it to explore the moral, emotional, and physical risk of the social activism in 19th century Russia.",
+      "<em>Arrest of a Propagandist</em> by Ilya Repin creates a dramatic moment where a Russian revolutionary is apprehended for attempting to distribute political papers or materials. The artwork was painted in a time where these actions were met with incredibly severe actions. The scene is further dramatized with shadowy figures, and papers thrown about covering the floor. The figures in the scene range from looking stern and anxious, while the arrested revolutionary looks determined and steadfast. Repin's work on this piece helps it to explore the moral, emotional, and physical risk of the social activism in 19th century Russia.",
     sources: [
       '"Arrest of a Propagandist 1892" Tretyakov Gallery. Accessed December 2, 2025. https://my.tretyakov.ru/app/masterpiece/77858?lang=en.',
     ],
@@ -52,9 +52,9 @@ const artworkMetadata = {
     artist: "Ilya Repin",
     year: "1881",
     excerpt:
-      "Ilya Repin, Portrait of Modest Mussorgsky, 1881. Oil on canvas, 71.8 by 58.5 cm. State Tretyakov Gallery, Moscow.",
+      "Ilya Repin, <em>Portrait of Modest Mussorgsky</em>, 1881. Oil on canvas, 71.8 by 58.5 cm. State Tretyakov Gallery, Moscow.",
     chatLabel:
-      "Modest Mussorgsky was a popular composer during Repin's time. The portrait that Repin depicts in Portrait of Modest Mussorgsky is not the common convention of painting significant figures in a way that puts them in their best light. Mussorgsky is instead painted with red cheeks, tired eyes, and a very fragile posture. This reflects Mussorgsky's declining health at the time, and his effort he put forth while he worked part time as a composer while also working as a civil servant. While the painting shows the recently hospitalized Musorgsky, it also radiates the composer's creativity and passion through the gaze and the honest portrait that Repin creates.",
+      "Modest Mussorgsky was a popular composer during Repin's time. The portrait that Repin depicts in <em>Portrait of Modest Mussorgsky</em> is not the common convention of painting significant figures in a way that puts them in their best light. Mussorgsky is instead painted with red cheeks, tired eyes, and a very fragile posture. This reflects Mussorgsky's declining health at the time, and his effort he put forth while he worked part time as a composer while also working as a civil servant. While the painting shows the recently hospitalized Musorgsky, it also radiates the composer's creativity and passion through the gaze and the honest portrait that Repin creates.",
     sources: [
       '"Modest Mussorgsky | Russian Composer & Nationalist." Britannica. Accessed December 6, 2025. https://www.britannica.com/biography/Modest-Mussorgsky.',
       '"Portrait of Modest Mussorgsky 1881" Tretyakov Gallery. Accessed December 2, 2025. https://my.tretyakov.ru/app/masterpiece/20705?lang=en.',
@@ -65,9 +65,9 @@ const artworkMetadata = {
     artist: "Nikolai Yaroshenko",
     year: "1878",
     excerpt:
-      "Nikolai Yaroshenko, The Prisoner, 1878. Oil on canvas, 55 by 48.5 cm. State Russian Museum, St. Petersburg.",
+      "Nikolai Yaroshenko, <em>The Prisoner</em>, 1878. Oil on canvas, 55 by 48.5 cm. State Russian Museum, St. Petersburg.",
     chatLabel:
-      "Yaroshenko's The Prisoner is overall a quiet, meditative piece. The artwork was created during a time where political imprisonment was a harsh reality for many. However, there is also a powerful message of inner resilience within the artwork. Yaroshenko presents this prisoner not as a political figure or an outcast but a sympathetic depiction of a human person. The man gazes out the window as the sun from outside is the only thing illuminating his otherwise dark cell. This use of color hints at the suffering and the longingness of the prisoner.",
+      "Yaroshenko's <em>The Prisoner</em> is overall a quiet, meditative piece. The artwork was created during a time where political imprisonment was a harsh reality for many. However, there is also a powerful message of inner resilience within the artwork. Yaroshenko presents this prisoner not as a political figure or an outcast but a sympathetic depiction of a human person. The man gazes out the window as the sun from outside is the only thing illuminating his otherwise dark cell. This use of color hints at the suffering and the longingness of the prisoner.",
     sources: [
       '"Nikolai Yaroshenko." Wikipedia, October 28, 2025. https://en.wikipedia.org/wiki/Nikolai_Yaroshenko.',
     ],
@@ -250,7 +250,7 @@ function ArtworkOverlay({ artwork }) {
     setIsVisible(!!artwork);
   }, [artwork]);
 
-  return (
+return (
     <div className={`artwork-overlay ${isVisible ? "visible" : ""}`}>
       {artwork && (
         <div className="artwork-content">
@@ -258,18 +258,18 @@ function ArtworkOverlay({ artwork }) {
           <p className="artist">
             {artwork.artist} • {artwork.year}
           </p>
-          <p className="excerpt">
-            {artwork.excerpt}
-            <br />
-            <br />
-            {artwork.chatLabel}
-          </p>
+          <p
+            className="excerpt"
+            dangerouslySetInnerHTML={{
+              __html: artwork.excerpt + "<br/><br/>" + artwork.chatLabel,
+            }}
+          />
           {artwork.sources && artwork.sources.length > 0 && (
             <div className="sources">
               <h3>Sources:</h3>
               <div className="source">
                 {artwork.sources.map((source) => (
-                  <div>
+                  <div key={source}>
                     <p className="source">{source}</p>
                   </div>
                 ))}
